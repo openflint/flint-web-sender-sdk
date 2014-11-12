@@ -69,7 +69,7 @@ var MessageChannel = function(wsURL){
 /*
 * Receiver Application state manager. This Class wrapper DIAL protocol.
 **/
-var SenderDaemon = function(deviceIp){
+var SenderDaemon = function(deviceIp, appid){
     var self = this;
     var appUrl = "",
         maxInactive = -1;
