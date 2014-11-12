@@ -121,11 +121,13 @@ var SenderDaemon = function(deviceIp, appid){
         }
     };
 
+    self.heartBeatLocked = false;
     /*
     * Private method, keep token alive.
     **/
     self._heartbeat = function(){
-        if(self.flingDConnected&&self.useIpc){
+        if(self.flingDConnected&&self.useIpc&&!self.heartBeatLocked){
+            self.heartBeatLocked = true;
             setTimeout(function(){
                 var serverAddress = "http://"+deviceIp+":9431/apps/"+appid,
                     headers = [
@@ -133,6 +135,7 @@ var SenderDaemon = function(deviceIp, appid){
                         ["Authorization", self.token]
                     ];
                 self.simpleHttpRequest("GET", headers, serverAddress, null, function(responseText){
+                    self.heartBeatLocked = false;
                     self._heartbeat();
                 });
             }, self.appHeartbeatInterval-100);
