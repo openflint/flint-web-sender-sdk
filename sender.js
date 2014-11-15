@@ -271,8 +271,8 @@ var SenderDaemon = function(deviceIp, appid){
     self.openApp = function(appUrl, maxInactive, useIpc){
         self.on("applaunched", function(res){
             self.on("statereceived", function(data){
-                if("additionalDatas" in data && "serverId" in data["additionalDatas"]){
-                    var channel = new MessageChannel(data["additionalDatas"]["serverId"]+"/senders/"+self.token);
+                if("additionalDatas" in data && "flint:channelBaseUrl" in data["additionalDatas"]){
+                    var channel = new MessageChannel(data["additionalDatas"]["flint:channelBaseUrl"]+"/senders/"+self.token);
                     channel.on("opened",function(){
                         ("onappopened" in self)&&(self.onappopened(channel));
                     });
